@@ -1,6 +1,7 @@
 import json
 from dynamic_shape_managment.shape import Shape
-from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager, DynamicShapeDescriptor
+from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager
+from shape_manager_errors import ShapeManagerShapeNotFoundError
 from app_logger import get_logger
 
 
@@ -87,10 +88,15 @@ class ShapeManager:
             new_data (Shape): The updated version of the shape.
         """
         self.logger.info(f"updating shape: {shape_id}")
-        self.delete_shape(shape_id)
-        new_data.shape_id = shape_id
-        Shape.shape_ids.add(shape_id)
-        self.create_shape(new_data)
+        for shape in self.shapes:
+            if shape.shape_id == shape_id:
+
+                self.delete_shape(shape_id)
+                new_data.shape_id = shape_id
+                Shape.shape_ids.add(shape_id)
+                self.create_shape(new_data)
+                return
+        raise ShapeManagerShapeNotFoundError(f"no shape was found with shape_id:{shape_id}")
 
     def delete_shape(self, shape_id: int):
         """
@@ -100,9 +106,13 @@ class ShapeManager:
             shape_id (int): The id of the shape to delete.
         """
         self.logger.info(f"deleting shape: {shape_id}")
-        self.shapes[:] = [shape for shape in self.shapes if shape.shape_id != shape_id]
-        self.save_to_json()
-
+        for shape in self.shapes:
+            if shape.shape_id == shape_id:
+                self.shapes[:] = [shape for shape in self.shapes if shape.shape_id != shape_id]
+                self.save_to_json()
+                return
+        raise ShapeManagerShapeNotFoundError(f"no shape was found with shape_id:{shape_id}")
+        
     def delete_all(self):
         """
         Delete all shapes from the datastore.
@@ -129,7 +139,7 @@ class ShapeManager:
             if shape.shape_id == shape_id:
                 return shape
         message = f"no shape with id: {shape_id} was found"
-        raise ValueError(message)
+        raise ShapeManagerShapeNotFoundError(message)
 
     def save_to_json(self):
         """
