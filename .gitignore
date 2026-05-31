@@ -1,0 +1,7 @@
+*\__pycache__
+.venv
+.docstring_studio_backups
+debug.log
+info.log
+warning.log
+shapes.json
