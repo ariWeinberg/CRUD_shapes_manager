@@ -16,6 +16,9 @@ from . import delete_shape
 # from . import delete_all_shapes
 
 def load_all_actions():
+    """
+    load all dynamic actions
+    """
     logger = get_logger("dynamic_actions_init")
 
     for file_name in os.listdir(os.path.dirname(os.path.abspath(__file__))):

@@ -4,6 +4,9 @@ from app_logger import get_logger
 
 
 def load_all_shapes():
+    """
+    load all dynamic shapes
+    """
     logger = get_logger("dynamic_shapes")
 
     for file_name in os.listdir(os.path.dirname(os.path.abspath(__file__))):

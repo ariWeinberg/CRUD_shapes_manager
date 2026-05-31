@@ -3,6 +3,15 @@ from logging.handlers import TimedRotatingFileHandler
 from datetime import datetime
 
 def get_logger(logger_name: str) -> logging.Logger:
+    """
+    return logger by name (if root return root logger)
+
+    Args:
+        logger_name (str): 
+
+    Returns:
+        logging.Logger
+    """
     if logger_name == "root":
         logger = logging.getLogger()
         if logger.handlers:

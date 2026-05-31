@@ -6,6 +6,12 @@ from dynamic_actions_managment.dynamic_action_decorator import dynamic_action
 
 @dynamic_action("create_shape", "create shape")
 def handle_create_shape(app: App):
+    """
+    create shape - action
+
+    Args:
+        app (App): 
+    """
     choice = app.shape_selection_menu.execute_menu()
 
     shape_descriptor = DynamicShapeTypeManager.get_shape_descriptor(choice.shape_name)

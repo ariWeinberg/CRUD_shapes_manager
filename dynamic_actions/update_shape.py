@@ -6,6 +6,12 @@ from dynamic_actions_managment.dynamic_action_decorator import dynamic_action
 
 @dynamic_action("update_shape", "update shape")
 def handle_update_shape(app: App):
+    """
+    update shape - action
+
+    Args:
+        app (App): 
+    """
     shape_id = get_positive_int("please select a shape to update (by id): ", zero_is_valid=True)
     old_shape = app.shape_manager.get_shape_by_id(shape_id)
 
