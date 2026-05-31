@@ -23,14 +23,14 @@ class Rectangle(Shape):
             ValueError: Raised if one of its argument values is invalid.
             TypeError: Raised if one of its arguments has an invalid type.
         """
-        self.validate_params(width=width, height=height)
+        self.validate_params(width, height)
         super().__init__("rectangle", shape_id)
         """initialize the rectangle by using the base initializer and setting `width` and `height`."""        
 
         self.width = width
         self.height = height
 
-    def validate_params(width, height):
+    def validate_params(self, width, height):
         sides = (width, height)
         if not all(isinstance(side, Real) for side in sides):
             raise TypeError("Rectangle sides must be Real numbers.")

@@ -34,7 +34,7 @@ class Triangle(Shape):
         self.side_b = side_b
         self.side_c = side_c
 
-    def validate_params(side_a, side_b, side_c):
+    def validate_params(self, side_a, side_b, side_c):
         sides = (side_a, side_b, side_c)
         if not all(isinstance(side, Real) for side in sides):
             raise TypeError("Triangle sides must be Real numbers.")

@@ -23,7 +23,7 @@ class Square(Shape):
         super().__init__("square", shape_id)
         self.side = side
 
-    def validate_params(side):
+    def validate_params(self, side):
         if not isinstance(side, Real):
             raise TypeError("Rectangle sides must be Real numbers.")
         if not math.isfinite(side):
