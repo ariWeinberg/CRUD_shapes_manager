@@ -18,23 +18,27 @@ class Square(Shape):
             ValueError: Raised if one of its argument values is invalid.
             TypeError: Raised if one of its arguments has an invalid type.
         """
+        self.validate_params(side)
+        
+        super().__init__("square", shape_id)
+        self.side = side
 
+    def validate_params(side):
         if not isinstance(side, Real):
             raise TypeError("Rectangle sides must be Real numbers.")
         if not math.isfinite(side):
             raise ValueError("Rectangle sides must be Finite numbers.")
         if not (side > 0):
             raise ValueError("Rectangle sides must be positive.")
-        
-        super().__init__("square", shape_id)
-        self.side = side
 
     def get_area(self):
+        self.validate_params(side=self.side)
         """calculate the area of the square. formula: 'side' to the power of 2"""
         return self.side ** 2
 
     def get_perimeter(self):
         """calculate the perimeter of the square. formula: 'side' times 4"""
+        self.validate_params(side=self.side)
         return self.side * 4
 
 if __name__ == "__main__":
