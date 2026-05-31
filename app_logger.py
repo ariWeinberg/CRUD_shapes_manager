@@ -5,6 +5,8 @@ from datetime import datetime
 def get_logger(logger_name: str) -> logging.Logger:
     if logger_name == "root":
         logger = logging.getLogger()
+        if logger.handlers:
+            return logger
         logger.setLevel(logging.DEBUG)
         formatter = logging.Formatter("{asctime} | {name} | {levelname} | {message}", style="{")
         warning_handler = TimedRotatingFileHandler(filename="warning.log", when="midnight", interval=1, backupCount=30)
