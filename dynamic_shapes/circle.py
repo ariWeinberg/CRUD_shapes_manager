@@ -20,6 +20,13 @@ class Circle(Shape):
             ValueError: Raised if one of its argument values is invalid.
             TypeError: Raised if one of its arguments has an invalid type.
         """
+        self.validate_params(radius=radius)
+        
+        super().__init__("circle", shape_id)
+
+        self.radius = radius
+    
+    def validate_params(self, radius):
         if not isinstance(radius, Real):
             raise TypeError("Rectangle sides must be Real numbers.")
         if not math.isfinite(radius):
@@ -27,16 +34,14 @@ class Circle(Shape):
         if not radius > 0:
             raise ValueError("Rectangle sides must be positive.")
         
-        super().__init__("circle", shape_id)
-
-        self.radius = radius
-
     def get_area(self):
         """calculate the area of the circle. formula: `radius` to the power of 2 times `pi`"""
+        self.validate_params(radius=self.radius)
         return round(number=((self.radius ** 2) * pi), ndigits=2)
 
     def get_perimeter(self):
         """calculate the perimeter of the circle. formula: `radius` times 2 times `pi`"""
+        self.validate_params(radius=self.radius)
         return round(number=((self.radius * 2) * pi), ndigits=2)
 
 
