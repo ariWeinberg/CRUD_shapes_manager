@@ -1,5 +1,5 @@
 from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager
-
+from shape_manager_errors import ShapeManagerDuplicateShapeIdError
 
 class Shape:
     """
@@ -27,7 +27,7 @@ class Shape:
             ValueError: raised when initializing with a shape id thats already taken.
         """
         if shape_id in Shape.shape_ids:
-            raise ValueError(f"a shape with id {shape_id} already exists.")
+            raise ShapeManagerDuplicateShapeIdError(f"a shape with id {shape_id} already exists.")
 
         if shape_id is None:
             shape_id = Shape.next_shape_id
