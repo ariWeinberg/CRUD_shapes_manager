@@ -26,6 +26,15 @@ class Triangle(Shape):
             TypeError: Raised if one of its arguments has an invalid type.
         """
         # validate sides
+        self.validate_params(side_a=side_a, side_b=side_b, side_c=side_c)
+
+        super().__init__(shape_type="triangle", shape_id=shape_id)
+
+        self.side_a = side_a
+        self.side_b = side_b
+        self.side_c = side_c
+
+    def validate_params(side_a, side_b, side_c):
         sides = (side_a, side_b, side_c)
         if not all(isinstance(side, Real) for side in sides):
             raise TypeError("Triangle sides must be Real numbers.")
@@ -37,15 +46,10 @@ class Triangle(Shape):
             message = f"Invalid dimensions ({side_a}, {side_b}, {side_c}).\n" + \
                 "the sum of any two sides must be greater than the third side."
             raise ValueError(message)
-
-        super().__init__(shape_type="triangle", shape_id=shape_id)
-
-        self.side_a = side_a
-        self.side_b = side_b
-        self.side_c = side_c
-
+        
     def get_area(self):
         """calculate the area of the triangle. formula: Heron's formula."""
+        self.validate_params(side_a=self.side_a, side_b=self.side_b, side_c=self.side_c)
         # to understand the formula refer to Herons formula on wikipedia
         # https://en.wikipedia.org/wiki/Heron%27s_formula
         semi_perimeter = self.get_perimeter() * 0.5
@@ -60,6 +64,7 @@ class Triangle(Shape):
 
     def get_perimeter(self):
         """calculate the perimeter of the triangle. formula: sum of `side_a`, `side_b`, `side_c` """
+        self.validate_params(side_a=self.side_a, side_b=self.side_b, side_c=self.side_c)
         # simply return the sum of all sides...
         return (self.side_a + self.side_b + self.side_c)
 
