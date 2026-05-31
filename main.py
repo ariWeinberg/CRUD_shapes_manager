@@ -1,3 +1,4 @@
+# https://github.com/ariWeinberg/CRUD_shapes_manager
 import app_logger
 from app_logger import get_logger
 import dynamic_shapes
