@@ -23,8 +23,14 @@ class Rectangle(Shape):
             ValueError: Raised if one of its argument values is invalid.
             TypeError: Raised if one of its arguments has an invalid type.
         """
+        self.validate_params(width=width, height=height)
         super().__init__("rectangle", shape_id)
-        """initialize the rectangle by using the base initializer and setting `width` and `height`."""
+        """initialize the rectangle by using the base initializer and setting `width` and `height`."""        
+
+        self.width = width
+        self.height = height
+
+    def validate_params(width, height):
         sides = (width, height)
         if not all(isinstance(side, Real) for side in sides):
             raise TypeError("Rectangle sides must be Real numbers.")
@@ -33,16 +39,14 @@ class Rectangle(Shape):
         if not all(side > 0 for side in sides):
             raise ValueError("Rectangle sides must be positive.")
         
-
-        self.width = width
-        self.height = height
-
     def get_area(self):
         """calculate the area of the rectangle. formula: `width` times `height`"""
+        self.validate_params(width=self.width, height=self.height)
         return self.width * self.height
 
     def get_perimeter(self):
         """calculate the perimeter of the rectangle. formula: (`width` plus `height`) times 2"""
+        self.validate_params(width=self.width, height=self.height)
         return (self.width + self.height) * 2
 
 
