@@ -1,6 +1,7 @@
 import json
 from dynamic_shape_managment.shape import Shape
 from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager, DynamicShapeDescriptor
+from app_logger import get_logger
 
 
 class ShapeManager:
@@ -17,6 +18,7 @@ class ShapeManager:
         Args:
             filename (str | None): the filepath to use as the data store.
         """
+        self.logger = get_logger("shape_manager")
         self.filename = filename or "shapes.json"
 
         self.shapes: list[Shape] = []
@@ -26,6 +28,7 @@ class ShapeManager:
         """
         lLoad all shapes from json datastore
         """
+        self.logger.info("loading all shapes from datastore.")
         shape_ids: set[int] = set()
         with open(self.filename, 'r', encoding='utf-8') as f:
             try:
@@ -54,6 +57,7 @@ class ShapeManager:
 
         Adds the shape to the list of shapes and saves to the datastore.
         """
+        self.logger.info(f"adding new shape: {shape.shape_id}")
         self.shapes.append(shape)
         self.save_to_json()
 
@@ -82,6 +86,7 @@ class ShapeManager:
             shape_id (int): The id of the shape to update.
             new_data (Shape): The updated version of the shape.
         """
+        self.logger.info(f"updating shape: {shape_id}")
         self.delete_shape(shape_id)
         new_data.shape_id = shape_id
         Shape.shape_ids.add(shape_id)
@@ -94,6 +99,7 @@ class ShapeManager:
         Args:
             shape_id (int): The id of the shape to delete.
         """
+        self.logger.info(f"deleting shape: {shape_id}")
         self.shapes[:] = [shape for shape in self.shapes if shape.shape_id != shape_id]
         self.save_to_json()
 
@@ -101,6 +107,7 @@ class ShapeManager:
         """
         Delete all shapes from the datastore.
         """
+        self.logger.info(f"updating all shpaes.")
         self.shapes = []
         self.save_to_json()
 
@@ -117,6 +124,7 @@ class ShapeManager:
         Raises:
             ValueError: Raised if no shape is found with a matching shape_id.
         """
+        self.logger.info(f"fetching shape: {shape_id}")
         for shape in self.shapes:
             if shape.shape_id == shape_id:
                 return shape
@@ -127,5 +135,6 @@ class ShapeManager:
         """
         save all shapes to the datastore.
         """
+        self.logger.info("saving changes to datastore.")
         with open(self.filename, 'w', encoding='utf-8') as f:
             json.dump([shape.to_dict() for shape in self.shapes], f, indent=4)
