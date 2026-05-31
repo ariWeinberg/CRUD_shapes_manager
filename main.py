@@ -17,6 +17,7 @@ def main():
         app = App()
         app.run()
     except Exception as e:
+        print("oops, an error occourd, check the logs.")
         logger.exception(e)
 
 
