@@ -1,11 +1,59 @@
+from __future__ import annotations
 # from shapes.shape_types import ShapeTypes
+from typing import Literal
+from pydantic import computed_field
+
 from dynamic_shape_managment.shape import Shape
 from dynamic_shape_managment.dynamic_shape_decorator import dynamic_shape
 from numbers import Real
 import math
 
+from pydantic import BaseModel, Field
 
-@dynamic_shape(shape_name='rectangle', shape_menu_name='Rectangle', shape_params=('width', 'height',))
+class RectangleCreate(BaseModel):
+    shape_type: Literal["rectangle"] = "rectangle"
+    
+    width: float = Field(gt=0)
+    height: float = Field(gt=0)
+
+    def to_domain(self) -> Rectangle:
+        return Rectangle(height=self.height, width=self.width)
+    
+
+class RectangleUpdate(BaseModel):
+    shape_type: Literal["rectangle"] = "rectangle"
+    width: float | None = Field(gt=0, default=None)
+    height: float | None = Field(gt=0, default=None)
+
+class RectangleResponse(BaseModel):
+    shape_type: Literal["rectangle"] = "rectangle"
+    shape_id: int = Field(gt=0)
+    width: float = Field(gt=0)
+    height: float = Field(gt=0)
+
+    @classmethod
+    def from_domain(cls, rectangle: Rectangle) -> RectangleResponse:
+        return cls(width=rectangle.width, height=rectangle.height, shape_id=rectangle.shape_id)
+    
+    @computed_field
+    @property
+    def area(self) -> float:
+        return round(number=(self.width * self.height), ndigits=2)
+
+    @computed_field
+    @property
+    def perimeter(self) -> float:
+        return round(number=((self.width + self.height) * 2), ndigits=2)
+
+
+@dynamic_shape(
+    shape_name='rectangle',
+    shape_menu_name='Rectangle',
+    shape_params=('width', 'height',),
+    shape_creation_model=RectangleCreate,
+    shape_response_model=RectangleResponse,
+    shape_update_model=RectangleUpdate
+    )
 class Rectangle(Shape):
     """a class representing a rectangle shape."""
     def __init__(self, width: int, height: int, shape_id: int | None = None):

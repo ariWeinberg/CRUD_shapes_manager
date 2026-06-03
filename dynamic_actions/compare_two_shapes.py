@@ -9,7 +9,7 @@ def handle_compare_two_shapes(app: App):
     compare two shapes - action
 
     Args:
-        app (App): 
+        app (App):
     """
     shape1_id = get_positive_int("please enter the id of the first shape: ", zero_is_valid=True)
     shape2_id = get_positive_int("please enter the id of the second shape: ", zero_is_valid=True)

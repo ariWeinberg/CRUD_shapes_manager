@@ -2,6 +2,7 @@ from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeM
 from shape_manager_errors import ShapeManagerInputIterationsError
 from app_logger import get_logger
 
+
 class ShapeSelectionMenu:
     """
     A class for managing and running a menu for the user to select a shape type.
@@ -11,7 +12,7 @@ class ShapeSelectionMenu:
             prompt_template: str = "please select an option:\n{menu_lines}\ntype your selection number: ",
             invalid_input_retry_prompt: str = "please enter a valid option: ",
             max_input_iterations: int = 20,
-        ):
+            ):
         """
         Initialize the shape selection menu.
 
@@ -75,7 +76,7 @@ class ShapeSelectionMenu:
         if iteration_counter >= self.max_input_iterations:
             self.logger.error("too many invalid inputs.")
             raise ShapeManagerInputIterationsError("too many invalid inputs.")
-        
+
         self.logger.debug(f"got user input. input: {choice}")
         return choice
 

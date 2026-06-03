@@ -1,6 +1,7 @@
 from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager
 from shape_manager_errors import ShapeManagerDuplicateShapeIdError
 
+
 class Shape:
     """
     The most basic representation of a shape.
@@ -12,7 +13,7 @@ class Shape:
     next_shape_id: int = 0  # the next avilable id for a shape
     shape_ids: set[int] = set()  # all the used ids (needed for validation - no duplicate ids.)
 
-    def __init__(self, shape_type: str, shape_id: int | None = None):
+    def __init__(self, shape_type: str, shape_id: int | None = None, **kwargs):
         """
         base initialization method for every shape.
 
@@ -26,6 +27,7 @@ class Shape:
         Raises:
             ValueError: raised when initializing with a shape id thats already taken.
         """
+        super().__init__()
         if shape_id in Shape.shape_ids:
             raise ShapeManagerDuplicateShapeIdError(f"a shape with id {shape_id} already exists.")
 

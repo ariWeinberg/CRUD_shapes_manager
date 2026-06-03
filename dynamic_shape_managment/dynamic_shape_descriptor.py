@@ -1,8 +1,19 @@
+from pydantic import BaseModel
+
+
 class DynamicShapeDescriptor:
     """
     A class representing a dynamic shape including its name, its display name,  the list of its required aruments, and the type itself.
     """
-    def __init__(self, shape_name: str, shape_menu_name: str, shape_params: tuple[str], cls):
+    def __init__(self,
+                 shape_name: str,
+                 shape_menu_name: str,
+                 shape_params: tuple[str],
+                 shape_creation_model: BaseModel,
+                 shape_update_model: BaseModel,
+                 shape_response_model: BaseModel,
+                 cls
+                 ):
         """
         Initialize a shape descriptor.
 
@@ -14,4 +25,7 @@ class DynamicShapeDescriptor:
         self.shape_name: str = shape_name
         self.shape_menu_name: str = shape_menu_name
         self.shape_params: tuple[str] = shape_params
+        self.shape_creation_model = shape_creation_model
+        self.shape_update_model = shape_update_model,
+        self.shape_response_model = shape_response_model,
         self.cls: type = cls

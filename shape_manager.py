@@ -62,7 +62,7 @@ class ShapeManager:
         self.shapes.append(shape)
         self.save_to_json()
 
-    def get_all_shapes(self, type_filter: str | None=None, sort_direction: bool | None=None):
+    def get_all_shapes(self, type_filter: str | None = None, sort_direction: bool | None = None):
         """
         Get the list of shapes from the datastore.
 
@@ -112,12 +112,12 @@ class ShapeManager:
                 self.save_to_json()
                 return
         raise ShapeManagerShapeNotFoundError(f"no shape was found with shape_id:{shape_id}")
-        
+
     def delete_all(self):
         """
         Delete all shapes from the datastore.
         """
-        self.logger.info(f"updating all shpaes.")
+        self.logger.info("updating all shpaes.")
         self.shapes = []
         self.save_to_json()
 

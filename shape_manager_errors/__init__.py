@@ -5,6 +5,7 @@ from .shape_manager_shape_type_not_found_error import ShapeManagerShapeTypeNotFo
 from .shape_manager_action_not_found_error import ShapeManagerActionNotFoundError
 from .shape_manager_duplicate_shape_id_error import ShapeManagerDuplicateShapeIdError
 from .shape_manager_shape_not_found_error import ShapeManagerShapeNotFoundError
+from .shape_manager_non_matching_shape_types_error import ShapeManagerNonMatchingShapeTypesError
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "ShapeManagerActionNotFoundError",
     "ShapeManagerDuplicateShapeIdError",
     "ShapeManagerShapeNotFoundError",
+    "ShapeManagerNonMatchingShapeTypesError",
 ]

@@ -9,7 +9,7 @@ def handle_delete_shape(app: App):
     delete shape - action
 
     Args:
-        app (App): 
+        app (App):
     """
     shape_id = get_positive_int("please select a shape to update (by id): ", zero_is_valid=True)
     app.shape_manager.delete_shape(shape_id)

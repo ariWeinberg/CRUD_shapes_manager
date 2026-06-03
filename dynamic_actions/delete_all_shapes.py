@@ -8,6 +8,6 @@ def handle_delete_all_shapes(app: App):
     delete all shapes - action
 
     Args:
-        app (App): 
+        app (App):
     """
     app.shape_manager.delete_all()

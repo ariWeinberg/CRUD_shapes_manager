@@ -1,10 +1,10 @@
-from shape_manager_errors import *
+from shape_manager_errors import ShapeManagerInputIterationsError, ShapeManagerArgumentTypeError
 
 
 MAX_INPUT_ITERATIONS = 20
 
 
-def get_positive_int(prompt: str, zero_is_valid: bool=False):
+def get_positive_int(prompt: str, zero_is_valid: bool = False):
     """
     Get a positive int as input from the user.
 
@@ -36,7 +36,7 @@ def get_positive_int(prompt: str, zero_is_valid: bool=False):
 
         if value > 0 or ((value == 0) and zero_is_valid):
             return value
-    
+
     raise ShapeManagerInputIterationsError("too many invalid inputs.")
 
 
@@ -45,7 +45,7 @@ def get_params_list(shape_params: tuple[str]) -> dict[str, int]:
     Get user input for each needed parameter in the list.
 
     For now only supports int type, may be extended to other types as needed.
-    
+
     Args:
         shape_params (tuple[str]): The list of needed parameters.
 

@@ -1,9 +1,9 @@
 # https://github.com/ariWeinberg/CRUD_shapes_manager
-import app_logger
 from app_logger import get_logger
-import dynamic_shapes
-import dynamic_actions
+import dynamic_shapes  # noqa: F401
+import dynamic_actions  # noqa: F401
 from app import App
+
 
 def main():
     """

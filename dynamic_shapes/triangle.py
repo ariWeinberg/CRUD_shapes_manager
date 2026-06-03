@@ -1,11 +1,76 @@
-# from shapes.shape_types import ShapeTypes
+from __future__ import annotations
+import math
+from numbers import Real
+from typing import Literal
 from dynamic_shape_managment.shape import Shape
 from dynamic_shape_managment.dynamic_shape_decorator import dynamic_shape
-from numbers import Real
-import math
+from pydantic import BaseModel, Field, computed_field
+import shape_manager_errors
 
+class TriangleCreate(BaseModel):
+    shape_type: Literal["triangle"] = "triangle"
+    side_a: float = Field(gt=0)
+    side_b: float = Field(gt=0)
+    side_c: float = Field(gt=0)
 
-@dynamic_shape(shape_name="triangle", shape_menu_name="Triangle", shape_params=("side_a", "side_b", "side_c",))
+    def to_domain(self) -> Triangle:
+        return Triangle(side_a=self.side_a, side_b=self.side_b, side_c=self.side_c)
+    
+
+class TriangleUpdate(BaseModel):
+    shape_type: Literal["triangle"] = "triangle"
+    side_a: float | None = Field(default=None, gt=0)
+    side_b: float | None = Field(default=None, gt=0)
+    side_c: float | None = Field(default=None, gt=0)
+
+    def apply_to_domain(self, triangle: Triangle) -> Triangle:
+        update_data = self.model_dump(exclude_unset=True)
+        if not isinstance(triangle, Triangle):
+            message = f"update to shape Triangle cannot be applied to object of type {type(triangle)}"
+            raise shape_manager_errors.ShapeManagerNonMatchingShapeTypesError(message)
+
+        for field_name, value in update_data.items():
+            setattr(triangle, field_name, value)
+
+        return
+
+class TriangleResponse(BaseModel):
+    shape_type: Literal["triangle"] = "triangle"
+    shape_id: int = Field(gt=0)
+    side_a: float = Field(gt=0)
+    side_b: float = Field(gt=0)
+    side_c: float = Field(gt=0)
+
+    @classmethod
+    def from_domain(cls, triangle: Triangle) -> TriangleResponse:
+        return cls(shape_id=triangle.shape_id, side_a=triangle.side_a, side_b=triangle.side_b, side_c=triangle.side_c)
+    
+    @computed_field
+    @property
+    def area(self) -> float:
+        semi_perimeter = self.perimeter * 0.5
+
+        diff_a = (semi_perimeter - self.side_a)
+        diff_b = (semi_perimeter - self.side_b)
+        diff_c = (semi_perimeter - self.side_c)
+
+        squared_area = semi_perimeter * diff_a * diff_b * diff_c
+
+        return round(number=(squared_area ** 0.5), ndigits=2)
+
+    @computed_field
+    @property
+    def perimeter(self) -> float:
+        return (self.side_a + self.side_b + self.side_c)
+    
+@dynamic_shape(
+    shape_name="triangle",
+    shape_menu_name="Triangle",
+    shape_params=("side_a", "side_b", "side_c",),
+    shape_creation_model=TriangleCreate,
+    shape_update_model=TriangleUpdate,
+    shape_response_model=TriangleResponse,
+    )
 class Triangle(Shape):
     """a class representing a triangle shape."""
 
@@ -116,6 +181,3 @@ if __name__ == "__main__":
     except Exception as e:
         exc = e
     assert isinstance(exc, TypeError)
-
-
-    

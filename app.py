@@ -1,9 +1,7 @@
 from menu.main_menu import MainMenu
 from menu.shape_selection_menu import ShapeSelectionMenu
 from shape_manager import ShapeManager
-from utils.utils import get_positive_int, get_params_list
 from utils.app_states import AppStates
-from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager
 from app_logger import get_logger
 
 

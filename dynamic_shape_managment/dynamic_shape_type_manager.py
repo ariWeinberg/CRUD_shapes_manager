@@ -11,7 +11,7 @@ class DynamicShapeTypeManager:
     logger = get_logger("dynamic_shape_managment")
 
     @classmethod
-    def register_shape(cls, shape_name: str, shape_menu_name: str, shape_params: tuple[str, ...], shape_cls: type):
+    def register_shape(cls, shape_name: str, shape_menu_name: str, shape_params: tuple[str, ...], shape_creation_model, shape_update_model, shape_response_model, shape_cls: type):
         """
         Register a new shape type into the system.
 
@@ -22,7 +22,14 @@ class DynamicShapeTypeManager:
             shape_cls (type): The shape class itself.
         """
         # missing validation for: valid shape, not duplicate.
-        descriptor = DynamicShapeDescriptor(shape_name=shape_name, shape_menu_name=shape_menu_name, shape_params=shape_params, cls=shape_cls)
+        descriptor = DynamicShapeDescriptor(
+            shape_name=shape_name,
+            shape_menu_name=shape_menu_name,
+            shape_params=shape_params,
+            shape_creation_model=shape_creation_model,
+            shape_update_model=shape_update_model,
+            shape_response_model=shape_response_model,
+            cls=shape_cls)
         cls.shape_descriptors.append(descriptor)
         cls.shape_name_to_descriptor_map[shape_name] = descriptor
         cls.logger.info(f"successfully registerd shape: {shape_name}")

@@ -1,11 +1,68 @@
+from __future__ import annotations
 # from shapes.shape_types import ShapeTypes
+from typing import Literal
+
 from dynamic_shape_managment.shape import Shape
 from math import pi
 from dynamic_shape_managment.dynamic_shape_decorator import dynamic_shape
 import math
 from numbers import Real
 
-@dynamic_shape(shape_name="circle", shape_menu_name="Circle", shape_params=("radius",))
+
+
+from pydantic import BaseModel, Field, computed_field
+from typing import Literal
+
+class CircleCreate(BaseModel):
+    shape_type: Literal["circle"] = "circle"
+
+    radius: float = Field(gt=0)
+
+    def to_domain(self) -> Circle:
+        return Circle(radius=self.radius)
+
+
+class CircleUpdate(BaseModel):
+    shape_type: Literal["circle"] = "circle"
+    radius: float | None = Field(default=None, gt=0)
+
+    def apply_to_domain(self, circle: Circle) -> Circle:
+        update_data = self.model_dump(exclude_unset=True)
+
+        for field_name, value in update_data.items():
+            setattr(circle, field_name, value)
+
+        return
+
+
+class CircleResponse(BaseModel):
+    shape_type: Literal["circle"] = "circle"
+    shape_id: int = Field(gt=0)
+    radius: float = Field(gt=0)
+
+    @classmethod
+    def from_domain(cls, circle: Circle) -> CircleResponse:
+        return cls(radius=circle.radius, shape_id=circle.shape_id)
+    
+    @computed_field
+    @property
+    def area(self) -> float:
+        return round(number=((self.radius ** 2) * pi), ndigits=2)
+
+    @computed_field
+    @property
+    def perimeter(self) -> float:
+        return round(number=((self.radius * 2) * pi), ndigits=2)
+
+
+@dynamic_shape(
+    shape_name="circle",
+    shape_menu_name="Circle",
+    shape_params=("radius",),
+    shape_creation_model=CircleCreate,
+    shape_response_model=CircleResponse,
+    shape_update_model=CircleUpdate
+    )
 class Circle(Shape):
     """a class representing a circle shape."""
     def __init__(self, radius: int, shape_id: int | None = None):
@@ -81,3 +138,4 @@ if __name__ == "__main__":
         print(f"test case: {test_name}. passed successfuly")
 
     print("all tests passed successfully.")
+

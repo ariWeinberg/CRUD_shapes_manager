@@ -1,9 +1,52 @@
+from __future__ import annotations
 from dynamic_shape_managment.dynamic_shape_decorator import dynamic_shape
 from dynamic_shape_managment.shape import Shape
 import math
-from numbers import Real
+from typing import Literal
 
-@dynamic_shape(shape_name="square", shape_menu_name="Square", shape_params=("side",))
+from numbers import Real
+from pydantic import BaseModel, Field, computed_field
+
+
+class SquareCreate(BaseModel):
+    shape_type: Literal["square"] = "square"
+    side: float = Field(gt=0)
+
+    def to_domain(self) -> Square:
+        return Square(side=self.side)
+
+
+class SquareUpdate(BaseModel):
+    shape_type: Literal["square"] = "square"
+    side: float | None = Field(default=None, gt=0)
+
+class SquareResponse(BaseModel):
+    shape_id: int = Field(gt=0)
+    shape_type: Literal["square"] = "square"
+    side: float = Field(gt=0)
+
+    @classmethod
+    def from_domain(cls, square: Square) -> SquareResponse:
+        return cls(side=square.side, shape_id=square.shape_id)
+    
+    @computed_field
+    @property
+    def area(self) -> float:
+        return round(number=((self.side) ** 2), ndigits=2)
+
+    @computed_field
+    @property
+    def perimeter(self) -> float:
+        return round(number=((self.side) * 4), ndigits=2)
+
+@dynamic_shape(
+    shape_name="square",
+    shape_menu_name="Square",
+    shape_params=("side",),
+    shape_creation_model=SquareCreate,
+    shape_response_model=SquareResponse,
+    shape_update_model=SquareUpdate,
+    )
 class Square(Shape):
     """a class representing a square shape."""
     def __init__(self, side: int, shape_id: int | None = None):

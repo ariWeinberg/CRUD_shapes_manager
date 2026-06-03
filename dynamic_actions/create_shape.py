@@ -10,7 +10,7 @@ def handle_create_shape(app: App):
     create shape - action
 
     Args:
-        app (App): 
+        app (App):
     """
     choice = app.shape_selection_menu.execute_menu()
 

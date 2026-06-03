@@ -9,9 +9,9 @@ class MainMenu:
     """
     def __init__(
             self,
-            prompt_template: str="\n_________________________________\nWelcome to CRUD shape manager.\n‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\nwhat would you like to do today?\n{menu_lines}\n\nplease type the number of the option you want: ",
-            invalid_input_retry_prompt: str="please enter a valid option: ",
-            max_input_iterations: int=20,
+            prompt_template: str = "\n_________________________________\nWelcome to CRUD shape manager.\n‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\nwhat would you like to do today?\n{menu_lines}\n\nplease type the number of the option you want: ",
+            invalid_input_retry_prompt: str = "please enter a valid option: ",
+            max_input_iterations: int = 20,
             ):
         """
         Initialize the main menu.
@@ -19,10 +19,10 @@ class MainMenu:
         Setup the list of options and other setting of the menu.
 
         Args:
-            menu_options (dict | None): 
-            prompt_template (str | None): 
-            invalid_input_retry_prompt (str | None): 
-            max_input_iterations (int | None): 
+            menu_options (dict | None):
+            prompt_template (str | None):
+            invalid_input_retry_prompt (str | None):
+            max_input_iterations (int | None):
         """
         self.logger = get_logger("main_menu")
         self.logger.debug("setting up main menu.")

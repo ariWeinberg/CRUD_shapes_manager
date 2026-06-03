@@ -2,11 +2,16 @@ from collections.abc import Callable
 from shape_manager_errors import ShapeManagerArgumentTypeError
 from dynamic_shape_managment.dynamic_shape_type_manager import DynamicShapeTypeManager
 from app_logger import get_logger
+from pydantic import BaseModel
+
 
 def dynamic_shape(
         shape_name: str,
         shape_menu_name: str,
-        shape_params: tuple[str, ...]
+        shape_params: tuple[str, ...],
+        shape_creation_model:BaseModel,
+        shape_response_model: BaseModel,
+        shape_update_model: BaseModel
         ) -> Callable[[type], type]:
     """
     A decorator to register a DynamicShape class into the system.
@@ -56,6 +61,9 @@ def dynamic_shape(
             shape_name=shape_name,
             shape_menu_name=shape_menu_name,
             shape_params=shape_params,
+            shape_creation_model=shape_creation_model,
+            shape_response_model=shape_response_model,
+            shape_update_model=shape_update_model,
             shape_cls=cls
         )
         return cls
